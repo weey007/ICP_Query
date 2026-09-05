@@ -30,3 +30,6 @@ model_data/
 打包/
 nuitka-crash-report.xml
 icpApi.exe
+# start.ps1 runtime files
+service.log
+service.pid
