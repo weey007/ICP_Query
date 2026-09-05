@@ -1,11 +1,11 @@
 ﻿# ICP_Query 服务管理脚本(后台运行)
 # 用法:
 #   .\start.ps1                    # 清残留并后台启动,日志写入 service.log
-#   .\start.ps1 -Action stop       # 停止服务
-#   .\start.ps1 -Action restart    # 重启
-#   .\start.ps1 -Action status     # 查看状态
-#   .\start.ps1 -Action log        # 查看最近日志(-Follow 持续跟踪)
-#   .\start.ps1 -Action fg         # 前台运行(调试用,Ctrl+C 两次退出)
+#   .\start.ps1 stop               # 停止服务
+#   .\start.ps1 restart            # 重启
+#   .\start.ps1 status             # 查看状态
+#   .\start.ps1 log                # 查看最近日志(-Follow 持续跟踪)
+#   .\start.ps1 fg                 # 前台运行(调试用,Ctrl+C 两次退出)
 param(
     [ValidateSet('start', 'stop', 'restart', 'status', 'log', 'fg')]
     [string]$Action = 'start',
@@ -77,9 +77,9 @@ function Start-Background {
     if ($listening) {
         Write-Host "==> service started in background (wrapper PID $($wrapper.Id))"
         Write-Host "==> web ui: http://127.0.0.1:$port"
-        Write-Host "==> log: .\start.ps1 -Action log   stop: .\start.ps1 -Action stop"
+        Write-Host "==> log: .\start.ps1 log   stop: .\start.ps1 stop"
     } else {
-        Write-Warning "service is not listening yet, check log: .\start.ps1 -Action log"
+        Write-Warning "service is not listening yet, check log: .\start.ps1 log"
     }
 }
 
@@ -90,8 +90,8 @@ switch ($Action) {
         Write-Host "==> stopped"
     }
     'restart' {
-        & $PSCommandPath -Action stop -Port $Port
-        & $PSCommandPath -Action start -Port $Port
+        & $PSCommandPath stop -Port $Port
+        & $PSCommandPath start -Port $Port
     }
     'status' {
         $port = Resolve-Port
